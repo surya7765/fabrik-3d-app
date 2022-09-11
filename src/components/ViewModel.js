@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 // import {PointerLockControls} from "three/examples/jsm/controls/PointerLockControls";
-import {ArcballControls} from "three/examples/jsm/controls/ArcballControls";
+import { ArcballControls } from "three/examples/jsm/controls/ArcballControls";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
@@ -56,7 +56,7 @@ const ThreedModel = (props) => {
         antialias: true,
         alpha: true,
       });
-      renderer.setPixelRatio(window.devicePixelRatio*2);
+      renderer.setPixelRatio(window.devicePixelRatio * 2);
       renderer.setSize(scW, scH);
       renderer.outputEncoding = THREE.sRGBEncoding;
       // console.log(container);
@@ -64,7 +64,8 @@ const ThreedModel = (props) => {
       setRenderer(renderer);
 
       const scene = new THREE.Scene();
-      const scale = 0.5; 
+      // scene.background = new THREE.Color(0x19d7f8);
+      const scale = 0.5;
       const camera = new THREE.OrthographicCamera(
         -scale,
         scale,
@@ -74,16 +75,17 @@ const ThreedModel = (props) => {
         500
       );
       const target = new THREE.Vector3(2, 2, 2);
-      const initialCameraPosition = new THREE.Vector3(
-        20 * Math.sin(0.2 * Math.PI),
-        10,
-        20 * Math.cos(0.2 * Math.PI)
-      );
+      // const initialCameraPosition = new THREE.Vector3(
+      //   20 * Math.sin(0.2 * Math.PI),
+      //   10,
+      //   20 * Math.cos(0.2 * Math.PI)
+      // );
       const ambientLight = new THREE.AmbientLight(0xcccccc, 5);
       scene.add(ambientLight);
-      const controls = new ArcballControls(camera, renderer.domElement,scene);
+      const controls = new OrbitControls(camera, renderer.domElement);
       controls.autoRotate = true;
-      controls.target = target;
+      controls.update();
+      // controls.target = target;
 
       var path = props.path;
 
@@ -102,7 +104,7 @@ const ThreedModel = (props) => {
         frame = frame <= 100 ? frame + 1 : frame;
 
         if (frame <= 100) {
-          const p = initialCameraPosition;
+          // const p = initialCameraPosition;
           // const rotSpeed = easeOutCirc(frame / 200);
 
           camera.position.y = 100;
@@ -129,7 +131,9 @@ const ThreedModel = (props) => {
         height: "540px",
         width: "540px",
         position: "relative",
-        border: "1px solid #ccc",
+        border: "3px solid #ccc",
+        backgroundColor: "#19d7f8",
+        overflow: "hidden",
       }}
       ref={refContainer}
     >
@@ -146,7 +150,7 @@ export default function ViewModel(props) {
   return (
     <div style={{ width: "100%", margin: "0 auto" }}>
       <p>Click and hold to move around</p>
-      <p>File Path {props.model}</p>
+      <a href={props.model}>Download this File in your local computer</a>
       {typeof props.model === "string" ? (
         <ThreedModel path={props.model} />
       ) : (
