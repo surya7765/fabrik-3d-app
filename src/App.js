@@ -31,7 +31,11 @@ function App() {
             <span class="sr-only">Loading...</span>
           </div>
         ) : (
-          model.map((item) => <ViewModel key={item._id} model={item.path} />)
+          model.map((item) => (
+            <div className="col-md-6">
+              <ViewModel key={item._id} model={item.path} />
+            </div>
+          ))
         )}
       </div>
     </>
