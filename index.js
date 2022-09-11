@@ -88,8 +88,7 @@ app.post("/api/", upload.single("file"), (req, res) => {
   });
 });
 
-const port = 4000;
-app.listen(process.env.PORT || port, function () {
+app.listen(process.env.PORT || 3001, function () {
   console.log(
     "Express server listening on port %d in %s mode",
     this.address().port,
